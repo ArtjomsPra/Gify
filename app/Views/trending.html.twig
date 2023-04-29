@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trending GIFys</title>
+</head>
+<body>
+<h2>Trending GIFs:</h2>
+{% for gify in gifs %}
+    <div>
+        <h3>{{ gify.getName() }}</h3>
+        <img src="{{ gify.getUrl() }}" alt="{{ gify.getName() }}">
+    </div>
+{% endfor %}
+</body>
+</html>
