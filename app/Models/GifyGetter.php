@@ -2,7 +2,13 @@
 
 namespace Gifyv2\Models;
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use GuzzleHttp\Client;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
 
 class GifyGetter {
 
@@ -24,7 +30,7 @@ public function getSearchedGifs (string $searchWord) : array
     return $this->returnedGifsCreatingObjects($gifsData);
 }
 
-    public function getTrendingGifs (string $searchWord) : array
+    public function getTrendingGifs () : array
     {
         $url = 'api.giphy.com/v1/gifs/trending';
         $response =$this->client->request('GET', $url, ['query' => [
