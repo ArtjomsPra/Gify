@@ -3,24 +3,32 @@
 namespace Gifyv2\Controller;
 
 use Gifyv2\Models\GifyGetter;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class GifyController
 {
-    private GifyClient $client;
+    private GifyGetter $client;
+    private Environment $twig;
 
     public function __construct ()
     {
         $this->client = new GifyGetter();
+        $loader = new FilesystemLoader(__DIR__.'/../Views');
+        $this->twig = new Environment($loader);
     }
 
-    public function search() : array
+    public function search(): string
     {
-        return $this->client->getSearchedGifs();
+        $query = $_GET['q'] ?? '';
+        $gifs = $this->client->getSearchedGifs($query);
+        return $this->twig->render('search.html.twig', ['gifs' => $gifs]);
     }
 
-    public function trending() : array
+    public function trending(): string
     {
-        return $this->client->getTrendingGifs();
+        $gifs = $this->client->getTrendingGifs();
+        return $this->twig->render('trending.html.twig', ['gifs' => $gifs]);
     }
 
 
